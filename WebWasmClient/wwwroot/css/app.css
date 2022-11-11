@@ -27,6 +27,8 @@ nav {
         font-weight: 500;
         display: block;
         align-self: flex-end;
+        outline: none !important;
+        border: none !important;
     }
 #app {
     display: grid;
