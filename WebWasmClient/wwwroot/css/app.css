@@ -1,1 +1,72 @@
-﻿
+﻿body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(0deg, #0d9488, #99f6e4);
+}
+h1{
+    margin: 0;
+}
+#blazor-error-ui {
+    display: none;
+}
+.page {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+}
+nav {
+    display: flex;
+    padding-left: 15px;
+}
+
+    nav > h1 {
+        font-size: 30px;
+        font-weight: 500;
+        display: block;
+        align-self: flex-end;
+    }
+#app {
+    display: grid;
+    place-content: center;
+    height: 100%;
+    width: 100%;
+}
+main {
+    padding: 0 10px 0 15px;
+}
+
+.loadingSpinner {
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    font-size: 10px;
+}
+
+    .loadingSpinner > div {
+        background-color: white;
+        height: 100%;
+        width: 10px;
+        display: inline-block;
+        animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    }
+
+    .loadingSpinner .rect2 {
+        animation-delay: -2.0s;
+    }
+
+    .loadingSpinner .rect3 {
+        animation-delay: -1.0s;
+    }
+
+@keyframes sk-stretchdelay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }
+
+    20% {
+        transform: scaleY(1.0);
+    }
+}
