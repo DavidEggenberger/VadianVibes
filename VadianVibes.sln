@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebWasmClient", "WebWasmClient\WebWasmClient.csproj", "{6051CA68-0CC7-42AD-A214-EE701B67C107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "WebWasmClient\WebClient.csproj", "{6051CA68-0CC7-42AD-A214-EE701B67C107}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{C5BA0432-0D27-4258-8F43-B165D18ABD74}"
 EndProject

@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DTOs\DTOs.csproj" />
-    <ProjectReference Include="..\WebWasmClient\WebWasmClient.csproj" />
+    <ProjectReference Include="..\WebWasmClient\WebClient.csproj" />
   </ItemGroup>
 
 </Project>
