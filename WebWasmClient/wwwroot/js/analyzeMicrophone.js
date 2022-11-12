@@ -23,6 +23,7 @@
 
     window.onload += () => {
         document.getElementById("btnStop").addEventListener("click", () => {
+            console.log(90);
             recognizer.close();
         });
     }

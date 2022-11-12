@@ -54,18 +54,21 @@ nav {
     padding: 3px;
     font-size: 16px;
 }
-
+    .button.analyzing {
+        animation: analyzing 2s infinite;
+    }
 .greetingSection{
     height: 100%;
     width: 100%;
     display: grid;
-    place-content: center;
+    justify-content: center;
 }
 .greetingSection > h1{
     font-size: 38px;
 }
 .greetingSectionMain{
-    height: 70px;
+    align-self: flex-end;
+    box-sizing: border-box;
 }
 .greetingSectionMain > .actionOverview{
     margin-top: 10px;
@@ -113,5 +116,10 @@ main {
 
     20% {
         transform: scaleY(1.0);
+    }
+}
+@keyframes analyzing {
+    50% {
+        background: rgba(255, 255, 255, 0.8);
     }
 }
