@@ -21,6 +21,7 @@ namespace WebAPI
             var inMemoryCollection = host.Services.GetRequiredService<InMemoryCityServicesCollection>();
             var cityServiceAPIClient = host.Services.GetRequiredService<CityServiceAPIClient>();
             inMemoryCollection.CityServices = (await cityServiceAPIClient.LoadAllCityServicesFromAPI()).ToList();
+            await cityServiceAPIClient.ExtendServicesWithScrapedInformations(inMemoryCollection.CityServices);
 
             host.Run();
         }

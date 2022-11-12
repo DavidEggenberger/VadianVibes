@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.AzureSpeechAnalysis;
 using WebAPI.Domain;
+using WebAPI.SGCityServices;
 using WebAPI.SGCityServicesClient;
 
 namespace WebAPI.Controllers
@@ -17,27 +18,25 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class CityServicesController : ControllerBase
     {
-        private readonly ILogger<CityServicesController> _logger;
-        private readonly CityServiceAPIClient cityServiceAPIClient;
         private readonly IMapper mapper;
         private readonly InMemoryCityServicesCollection inMemoryCityServicesCollection;
-        private readonly AzureSpeechAnalysisAPIClient azureSpeechAnalysisAPIClient;
-        public CityServicesController(ILogger<CityServicesController> logger, CityServiceAPIClient cityServiceAPIClient, IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection, AzureSpeechAnalysisAPIClient azureSpeechAnalysisAPIClient)
+        private readonly SGCityServiceSearchService cityServiceSearchService;
+        public CityServicesController(IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection, SGCityServiceSearchService cityServiceSearchService)
         {
-            _logger = logger;
-            this.cityServiceAPIClient = cityServiceAPIClient;
             this.mapper = mapper;
             this.inMemoryCityServicesCollection = inMemoryCityServicesCollection;
-            this.azureSpeechAnalysisAPIClient = azureSpeechAnalysisAPIClient;
+            this.cityServiceSearchService = cityServiceSearchService;
         }
 
         [HttpGet]
         public async Task<IEnumerable<CityServiceDTO>> GetSearchedCityServices(
             [FromQuery] IEnumerable<string> keywords, 
+            [FromQuery] KeywordSearchOption? keywordSearchOption,
+            [FromQuery] SearchInLinkedDocumentSearchOption? searchInLinkedDocumentSearchOption,
             [FromQuery] string description)
         {
-            var st = await azureSpeechAnalysisAPIClient.GetTokenAsync();
-            return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
+            var services = cityServiceSearchService.SearchCityServices(keywords, keywordSearchOption, searchInLinkedDocumentSearchOption, description);
+            return mapper.Map<IEnumerable<CityServiceDTO>>(services);
         }
 
         [HttpGet("grouped")]

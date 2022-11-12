@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.AzureSpeechAnalysis;
+using WebAPI.SGCityServices;
 using WebAPI.SGCityServicesClient;
 
 namespace WebAPI
@@ -63,6 +64,8 @@ namespace WebAPI
             {
                 options.BaseAddress = new Uri("https://switzerlandnorth.api.cognitive.microsoft.com/sts/v1.0/");
             });
+            services.AddScoped<SGCityServiceSearchService>();
+            services.AddHttpClient("default");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

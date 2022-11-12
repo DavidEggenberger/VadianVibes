@@ -14,5 +14,10 @@
         public string merkblatt_link { get; set; }
         public string weitere_informationen { get; set; }
         public string dienststelle { get; set; }
+        public ScrapedInformation ScrapedInformation { get; set; } = new ScrapedInformation();
+        public override string ToString()
+        {
+            return leistungsbezeichnung + direktion_name + art_der_dienstleistung + dienststelle_name + direktion_kurzbezeichnung + thema + kurzbeschreibung + dienststelle + durchfuhrende_abteilung + weitere_informationen;
+        }
     }
 }
