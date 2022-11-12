@@ -30,7 +30,7 @@ namespace WebAPI
                 .ConfigureAppConfiguration((hostingContext) =>
                 {
                     hostingContext.AddAzureKeyVault(new Uri("https://vadianvibes.vault.azure.net/"),
-                            new DefaultAzureCredential(new DefaultAzureCredentialOptions { ManagedIdentityClientId = "e735d2bc-2070-46b8-bf44-4fa9b69f68e1" }));
+                            new DefaultAzureCredential(new DefaultAzureCredentialOptions { ManagedIdentityClientId = "df592a24-6942-4b26-bd17-070fe244a43c" }));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

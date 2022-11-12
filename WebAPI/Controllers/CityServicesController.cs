@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DTOs;
+using DTOs.CityService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,14 +28,20 @@ namespace WebAPI.Controllers
             this.inMemoryCityServicesCollection = inMemoryCityServicesCollection;
         }
 
-        [HttpGet]
-        public IEnumerable<CityServiceDTO> GetCityServicesAsync()
+        //[HttpGet]
+        //public IEnumerable<CityServiceDTO> GetCityServicesAsync()
+        //{
+        //    return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
+        //}
+
+        [HttpGet("grouped")]
+        public IEnumerable<CityServiceDTO> GetCityServicesGroupedAsync()
         {
             return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
         }
 
-        [HttpGet("grouped")]
-        public IEnumerable<CityServiceDTO> GetCityServicesGroupedAsync()
+        [HttpGet]
+        public IEnumerable<CityServiceDTO> GetSearchedCityServices([FromQuery] IEnumerable<string> keywords, [FromQuery] string description)
         {
             return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
         }

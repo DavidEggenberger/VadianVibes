@@ -59,6 +59,11 @@ namespace WebAPI
                 options.Endpoint = Configuration["AzureKeyVaultSpeechEndpoint"];
                 options.APIKey = Configuration["AzureKeyVaultAPIKey"];
             });
+            services.AddHttpClient<AzureSpeechAnalysisAPIClient>(options =>
+            {
+                options.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", Configuration["AzureKeyVaultAPIKey"]);
+                options.BaseAddress = new Uri("https://switzerlandnorth.api.cognitive.microsoft.com/sts/v1.0/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
