@@ -20,6 +20,9 @@ h1{
 nav {
     display: flex;
     padding-left: 15px;
+    justify-content: space-between;
+    width: 100vw;
+    box-sizing: border-box;
 }
 
     nav > h1 {
@@ -30,6 +33,20 @@ nav {
         outline: none !important;
         border: none !important;
     }
+    nav > .section{
+        align-self: flex-end;
+        margin-right: 15px;
+    }
+    nav .section button{
+        outline: none;
+        background: none;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 3px;
+        font-size: 16px;
+        margin-bottom: -2px;
+    }
+
 .greetingSection{
     height: 100%;
     width: 100%;

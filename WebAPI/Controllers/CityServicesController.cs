@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DTOs;
 using DTOs.CityService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CognitiveServices.Speech;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,15 +23,17 @@ namespace WebAPI.Controllers
         private readonly IMapper mapper;
         private readonly InMemoryCityServicesCollection inMemoryCityServicesCollection;
         private readonly SGCityServiceSearchService cityServiceSearchService;
-        public CityServicesController(IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection, SGCityServiceSearchService cityServiceSearchService)
+        private readonly AzureSpeechToTextService azureSpeechToTextService;
+        public CityServicesController(IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection, SGCityServiceSearchService cityServiceSearchService, AzureSpeechToTextService azureSpeechToTextService)
         {
             this.mapper = mapper;
             this.inMemoryCityServicesCollection = inMemoryCityServicesCollection;
             this.cityServiceSearchService = cityServiceSearchService;
+            this.azureSpeechToTextService = azureSpeechToTextService;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CityServiceDTO>> GetSearchedCityServices(
+        public IEnumerable<CityServiceDTO> GetSearchedCityServices(
             [FromQuery] IEnumerable<string> keywords, 
             [FromQuery] KeywordSearchOption? keywordSearchOption,
             [FromQuery] SearchInLinkedDocumentSearchOption? searchInLinkedDocumentSearchOption)
@@ -38,7 +42,7 @@ namespace WebAPI.Controllers
             return mapper.Map<IEnumerable<CityServiceDTO>>(services);
         }
 
-        [HttpGet("grouped")]
+        [HttpGet("groupedBy")]
         public Dictionary<string, List<CityServiceDTO>> GetGroupedCityServicesGroupedAsync(
             [FromQuery] IEnumerable<string> keywords,
             [FromQuery] KeywordSearchOption? keywordSearchOption,
@@ -56,7 +60,20 @@ namespace WebAPI.Controllers
                 _ => servicesDTOs.GroupBy(s => s.art_der_dienstleistung)
             };
 
-            return grouped.Where(g => g.Key != null && g.Count() > 0).ToDictionary(kvp => kvp.Key, kvp => kvp.ToList());
+            return grouped.Where(g => g.Key != null && g.Count() > 0).ToDictionary(kvp => $"{groupBy}: {kvp.Key}", kvp => kvp.ToList());
+        }
+
+        [HttpPost]
+        public async Task<IEnumerable<CityServiceDTO>> PostWavFile(IFormFile wavFile)
+        {
+            if(wavFile.ContentType != "audio/wav")
+            {
+                
+            }
+
+            var foundKeywords = await azureSpeechToTextService.AnalyzeFormFile(wavFile);
+
+            return null;
         }
     }
 }

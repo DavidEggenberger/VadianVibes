@@ -19,4 +19,8 @@
     <ProjectReference Include="..\WebWasmClient\WebClient.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AzureSpeechAnalysis\Files\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,7 @@
 ﻿@inject IJSRuntime jsRuntime
 @inject HttpClient httpClient
 
-<button @onclick="async() => await StartAnalyzeMicrophoneAsync()">Analyze Microphone</button>
-
-<button id="btn-stop">End Analyzing Microphone</button>
+<button @onclick="async() => await StartAnalyzeMicrophoneAsync()">@(microphoneAnalyzing ? "Aufnahme beenden" : "Aufnahme starten")</button>
 
 @code {
     public string result = string.Empty;
@@ -20,7 +18,9 @@
 
     public async Task StartAnalyzeMicrophoneAsync()
     {
+        microphoneAnalyzing = true;
         await jsRuntime.InvokeVoidAsync("analyzeMicrophone", DotNetObjectReference.Create(this), "de-CH", token.Token);
+        StateHasChanged();
     }
 
     [JSInvokable]

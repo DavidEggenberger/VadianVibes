@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -65,6 +66,7 @@ namespace WebAPI
                 options.BaseAddress = new Uri("https://switzerlandnorth.api.cognitive.microsoft.com/sts/v1.0/");
             });
             services.AddScoped<SGCityServiceSearchService>();
+            services.AddScoped<AzureSpeechToTextService>();
             services.AddHttpClient("default");
         }
 
