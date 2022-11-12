@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace WebAPI.AzureSpeechAnalysis
@@ -6,15 +8,19 @@ namespace WebAPI.AzureSpeechAnalysis
     public class AzureSpeechAnalysisAPIClient
     {
         private readonly HttpClient httpClient;
-        public AzureSpeechAnalysisAPIClient(HttpClient httpClient)
+        private readonly AzureSpeechAnalysisOptions options;
+        public AzureSpeechAnalysisAPIClient(HttpClient httpClient, IOptions<AzureSpeechAnalysisOptions> options)
         {
             this.httpClient = httpClient;
+            this.options = options.Value;
         }
 
-        public async Task<string> GetToken()
+        public async Task<string> GetTokenAsync()
         {
+            httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", options.APIKey);
             var respnse = await httpClient.PostAsync("issuetoken", null);
-            return null;
+            var responseString = await respnse.Content.ReadAsStringAsync();
+            return responseString;
         }
     }
 }

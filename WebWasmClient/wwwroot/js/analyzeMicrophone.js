@@ -1,6 +1,6 @@
-﻿function analyzeMicrophone(dotnetReference, language, key) {
+﻿function analyzeMicrophone(dotnetReference, language, token) {
     let result;
-    var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(key, "switzerlandnorth");
+    var speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(token, "switzerlandnorth");
     speechConfig.speechRecognitionLanguage = language;
     var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);

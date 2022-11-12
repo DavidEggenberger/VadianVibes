@@ -11,22 +11,21 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AzureSpeechAnalysisController : ControllerBase
     {
-        private readonly AzureSpeechAnalysisOptions azureSpeechOptions;
+        private readonly AzureSpeechAnalysisAPIClient azureSpeechAnalysisAPIClient;
 
-        public AzureSpeechAnalysisController(IOptions<AzureSpeechAnalysisOptions> azureSpeechOptions)
+        public AzureSpeechAnalysisController(AzureSpeechAnalysisAPIClient azureSpeechAnalysisAPIClient)
         {
-            this.azureSpeechOptions = azureSpeechOptions.Value;
+            this.azureSpeechAnalysisAPIClient = azureSpeechAnalysisAPIClient;
         }
 
         [HttpGet]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<AzureCognitiveServicesTokenDTO> GetToken()
+        public async Task<AzureCognitiveServicesTokenDTO> GetTokenAsync()
         {
-
-
+            var token = await azureSpeechAnalysisAPIClient.GetTokenAsync();
             return new AzureCognitiveServicesTokenDTO
             {
-                Token = string.Empty
+                Token = token,
             };
         }
     }

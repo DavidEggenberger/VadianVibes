@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.AzureSpeechAnalysis;
 using WebAPI.Domain;
 using WebAPI.SGCityServicesClient;
 
@@ -20,28 +21,27 @@ namespace WebAPI.Controllers
         private readonly CityServiceAPIClient cityServiceAPIClient;
         private readonly IMapper mapper;
         private readonly InMemoryCityServicesCollection inMemoryCityServicesCollection;
-        public CityServicesController(ILogger<CityServicesController> logger, CityServiceAPIClient cityServiceAPIClient, IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection)
+        private readonly AzureSpeechAnalysisAPIClient azureSpeechAnalysisAPIClient;
+        public CityServicesController(ILogger<CityServicesController> logger, CityServiceAPIClient cityServiceAPIClient, IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection, AzureSpeechAnalysisAPIClient azureSpeechAnalysisAPIClient)
         {
             _logger = logger;
             this.cityServiceAPIClient = cityServiceAPIClient;
             this.mapper = mapper;
             this.inMemoryCityServicesCollection = inMemoryCityServicesCollection;
-        }
-
-        //[HttpGet]
-        //public IEnumerable<CityServiceDTO> GetCityServicesAsync()
-        //{
-        //    return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
-        //}
-
-        [HttpGet("grouped")]
-        public IEnumerable<CityServiceDTO> GetCityServicesGroupedAsync()
-        {
-            return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
+            this.azureSpeechAnalysisAPIClient = azureSpeechAnalysisAPIClient;
         }
 
         [HttpGet]
-        public IEnumerable<CityServiceDTO> GetSearchedCityServices([FromQuery] IEnumerable<string> keywords, [FromQuery] string description)
+        public async Task<IEnumerable<CityServiceDTO>> GetSearchedCityServices(
+            [FromQuery] IEnumerable<string> keywords, 
+            [FromQuery] string description)
+        {
+            var st = await azureSpeechAnalysisAPIClient.GetTokenAsync();
+            return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
+        }
+
+        [HttpGet("grouped")]
+        public IEnumerable<CityServiceDTO> GetCityServicesGroupedAsync()
         {
             return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
         }

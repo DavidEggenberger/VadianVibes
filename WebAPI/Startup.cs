@@ -56,12 +56,11 @@ namespace WebAPI
             services.AddSingleton<InMemoryCityServicesCollection>();
             services.Configure<AzureSpeechAnalysisOptions>(options =>
             {
-                options.Endpoint = Configuration["AzureKeyVaultSpeechEndpoint"];
-                options.APIKey = Configuration["AzureKeyVaultAPIKey"];
+                //options.Endpoint = Configuration["AzureSpeechAnalysisEndpoint"];
+                options.APIKey = Configuration["AzureSpeechAnalysisAPIKey"];
             });
             services.AddHttpClient<AzureSpeechAnalysisAPIClient>(options =>
             {
-                options.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", Configuration["AzureKeyVaultAPIKey"]);
                 options.BaseAddress = new Uri("https://switzerlandnorth.api.cognitive.microsoft.com/sts/v1.0/");
             });
         }
