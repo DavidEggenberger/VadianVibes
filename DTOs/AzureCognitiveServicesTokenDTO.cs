@@ -8,6 +8,6 @@ namespace DTOs
 {
     public class AzureCognitiveServicesTokenDTO
     {
-        public string Key { get; set; }
+        public string Token { get; set; }
     }
 }

@@ -32,5 +32,11 @@ namespace WebAPI.Controllers
         {
             return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
         }
+
+        [HttpGet("grouped")]
+        public IEnumerable<CityServiceDTO> GetCityServicesGroupedAsync()
+        {
+            return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
+        }
     }
 }

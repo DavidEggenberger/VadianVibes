@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.AzureSpeechAnalysis;
 using WebAPI.SGCityServicesClient;
 
 namespace WebAPI
@@ -53,6 +54,11 @@ namespace WebAPI
             });
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton<InMemoryCityServicesCollection>();
+            services.Configure<AzureSpeechAnalysisOptions>(options =>
+            {
+                options.Endpoint = Configuration["AzureKeyVaultSpeechEndpoint"];
+                options.APIKey = Configuration["AzureKeyVaultAPIKey"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

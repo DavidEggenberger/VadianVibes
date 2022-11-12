@@ -9,17 +9,20 @@
     public string result = string.Empty;
     public bool microphoneAnalyzing = false;
 
+    [Parameter]
+    public EventCallback<(string result, string language)> MicrophoneAnalyzedEventCallback { get; set; }
+
     public async Task StartAnalyzeMicrophoneAsync()
     {
         AzureCognitiveServicesTokenDTO token = await httpClient.GetFromJsonAsync<AzureCognitiveServicesTokenDTO>("api/AzureSpeechAnalysis");
-        await jsRuntime.InvokeVoidAsync("analyzeMicrophone", DotNetObjectReference.Create(this), "de-CH", token.Key);
+        await jsRuntime.InvokeVoidAsync("analyzeMicrophone", DotNetObjectReference.Create(this), "de-CH", token.Token);
     }
 
     [JSInvokable]
     public void MicrophoneAnalyzedCallback(string s, string li)
     {
         microphoneAnalyzing = true;
-        //storageService.ChangeMessage(s.Substring("[object Object]".Count()), li);
+        MicrophoneAnalyzedEventCallback.InvokeAsync(new(s.Substring("[object Object]".Count()), li));
         microphoneAnalyzing = false;
         StateHasChanged();
     }
