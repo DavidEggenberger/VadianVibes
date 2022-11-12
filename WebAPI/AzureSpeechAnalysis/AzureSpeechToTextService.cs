@@ -24,7 +24,7 @@ namespace WebAPI.AzureSpeechAnalysis
             var speechConfig = SpeechConfig.FromSubscription(options.APIKey, "switzerlandnorth");
             
             var id = Guid.NewGuid();
-            var generatedFileName = $@"{webHostEnvironment.ContentRootPath}/AzureSpeechAnalysis/Files/{id}.wav";
+            var generatedFileName = $@"{webHostEnvironment.WebRootPath}/{id}.wav";
 
             using (var fileStream = file.OpenReadStream())
             {

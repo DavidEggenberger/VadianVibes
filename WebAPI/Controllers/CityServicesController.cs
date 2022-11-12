@@ -64,11 +64,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IEnumerable<CityServiceDTO>> PostWavFile(IFormFile wavFile)
+        public async Task<ActionResult<IEnumerable<CityServiceDTO>>> PostWavFile(IFormFile wavFile)
         {
-            if(wavFile.ContentType != "audio/wav")
+            if(wavFile == null || wavFile.ContentType != "audio/wav")
             {
-                
+                return BadRequest("Please provide a .wav File");
             }
 
             var foundKeywords = await azureSpeechToTextService.AnalyzeFormFile(wavFile);

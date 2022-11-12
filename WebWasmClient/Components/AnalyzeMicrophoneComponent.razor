@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime jsRuntime
 @inject HttpClient httpClient
 
-<button @onclick="async() => await StartAnalyzeMicrophoneAsync()">@(microphoneAnalyzing ? "Aufnahme beenden" : "Aufnahme starten")</button>
+<button class="button" @onclick="async() => await StartAnalyzeMicrophoneAsync()">@(microphoneAnalyzing ? "Aufnahme beenden" : "Aufnahme starten 🔉")</button>
 
 @code {
     public string result = string.Empty;
