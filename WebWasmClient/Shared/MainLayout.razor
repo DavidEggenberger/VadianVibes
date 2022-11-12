@@ -13,10 +13,17 @@
     <div class="greetingSection">
         <div class="greetingSectionMain">
             <h1>Finde Dienstleistungen der Stadt St.Gallen per Spracheingabe!</h1>
+            <div class="eingabeBefehleContainer">
+                <div class="eingabeBefehle">
+                    <h7>Schildere deine Suche auf Schweizerdeutsch</h7>
+                    <h7>"Ich sueche nach enere Bibliothek"</h7>
+                    <h7>Die Resultate erscheinen dann im Suchfenster</h7>
+                </div>
+            </div>
             <div class="actionOverview">
                 <div style="display: flex; align-items: center; justify-content: center;">
                     <div class="section">
-                        <AnalyzeMicrophoneComponent/>
+                        <AnalyzeMicrophoneComponent MicrophoneAnalyzedEventCallback="t => microphoneAnalyzedKeywords = t.result"/>
                     </div>
                 </div>  
             </div>
@@ -27,3 +34,8 @@
         @Body
     </main>
 </div>
+
+
+@code{
+    private string microphoneAnalyzedKeywords;
+}
