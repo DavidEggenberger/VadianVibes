@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebWasmClient", "WebWasmClient\WebWasmClient.csproj", "{6051CA68-0CC7-42AD-A214-EE701B67C107}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{C5BA0432-0D27-4258-8F43-B165D18ABD74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{C5BA0432-0D27-4258-8F43-B165D18ABD74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{DFB35F89-C891-425B-BB24-D5F4DD7BD2A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOs", "DTOs\DTOs.csproj", "{DFB35F89-C891-425B-BB24-D5F4DD7BD2A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

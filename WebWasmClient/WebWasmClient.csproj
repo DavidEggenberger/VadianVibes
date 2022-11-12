@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
+    <ProjectReference Include="..\DTOs\DTOs.csproj" />
   </ItemGroup>
 
 </Project>

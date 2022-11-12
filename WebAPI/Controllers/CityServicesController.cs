@@ -18,18 +18,19 @@ namespace WebAPI.Controllers
         private readonly ILogger<CityServicesController> _logger;
         private readonly CityServiceAPIClient cityServiceAPIClient;
         private readonly IMapper mapper;
-        public CityServicesController(ILogger<CityServicesController> logger, CityServiceAPIClient cityServiceAPIClient, IMapper mapper)
+        private readonly InMemoryCityServicesCollection inMemoryCityServicesCollection;
+        public CityServicesController(ILogger<CityServicesController> logger, CityServiceAPIClient cityServiceAPIClient, IMapper mapper, InMemoryCityServicesCollection inMemoryCityServicesCollection)
         {
             _logger = logger;
             this.cityServiceAPIClient = cityServiceAPIClient;
             this.mapper = mapper;
+            this.inMemoryCityServicesCollection = inMemoryCityServicesCollection;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CityServiceDTO>> GetCityServicesAsync()
+        public IEnumerable<CityServiceDTO> GetCityServicesAsync()
         {
-            var cityServices = await cityServiceAPIClient.LoadAllCityServicesFromAPI();
-            return mapper.Map<IEnumerable<CityServiceDTO>>(cityServices);
+            return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
         }
     }
 }

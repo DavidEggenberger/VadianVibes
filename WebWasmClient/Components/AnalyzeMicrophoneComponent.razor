@@ -1,0 +1,26 @@
+﻿@inject IJSRuntime jsRuntime
+@inject HttpClient httpClient
+
+<button @onclick="async() => await StartAnalyzeMicrophoneAsync()">Analyze Microphone</button>
+
+<button id="btn-stop">End Analyzing Microphone</button>
+
+@code {
+    public string result = string.Empty;
+    public bool microphoneAnalyzing = false;
+
+    public async Task StartAnalyzeMicrophoneAsync()
+    {
+        AzureCognitiveServicesTokenDTO token = await httpClient.GetFromJsonAsync<AzureCognitiveServicesTokenDTO>("api/AzureSpeechAnalysis");
+        await jsRuntime.InvokeVoidAsync("analyzeMicrophone", DotNetObjectReference.Create(this), "de-CH", token.Key);
+    }
+
+    [JSInvokable]
+    public void MicrophoneAnalyzedCallback(string s, string li)
+    {
+        microphoneAnalyzing = true;
+        //storageService.ChangeMessage(s.Substring("[object Object]".Count()), li);
+        microphoneAnalyzing = false;
+        StateHasChanged();
+    }
+}

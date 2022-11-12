@@ -52,6 +52,7 @@ namespace WebAPI
                 options.BaseAddress = new Uri("https://daten.stadt.sg.ch/api/records/1.0/search/?dataset=uebersicht-dienstleistungen-stadt-st-gallen-arbeitsversion&q=&rows=5000&sort=thema&facet=thema&facet=art_der_dienstleistung&facet=dienststelle&facet=dienststelle_name&facet=direktion_name&facet=direktion_kurzbezeichnung");
             });
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddSingleton<InMemoryCityServicesCollection>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
