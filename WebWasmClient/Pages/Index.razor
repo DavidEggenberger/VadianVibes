@@ -1,8 +1,10 @@
 ﻿@page "/"
 
-<h1>@token</h1>
 
-<WebClient.Components.AnalyzeMicrophoneComponent MicrophoneAnalyzedEventCallback="(s) => token = s.result"></WebClient.Components.AnalyzeMicrophoneComponent>
+
+
+
+<AnalyzeMicrophoneComponent MicrophoneAnalyzedEventCallback="(s) => token = s.result"></AnalyzeMicrophoneComponent>
 
 
 @code{

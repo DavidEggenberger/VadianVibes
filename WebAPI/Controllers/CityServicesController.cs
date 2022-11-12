@@ -32,10 +32,9 @@ namespace WebAPI.Controllers
         public async Task<IEnumerable<CityServiceDTO>> GetSearchedCityServices(
             [FromQuery] IEnumerable<string> keywords, 
             [FromQuery] KeywordSearchOption? keywordSearchOption,
-            [FromQuery] SearchInLinkedDocumentSearchOption? searchInLinkedDocumentSearchOption,
-            [FromQuery] string description)
+            [FromQuery] SearchInLinkedDocumentSearchOption? searchInLinkedDocumentSearchOption)
         {
-            var services = cityServiceSearchService.SearchCityServices(keywords, keywordSearchOption, searchInLinkedDocumentSearchOption, description);
+            var services = cityServiceSearchService.SearchCityServices(keywords, keywordSearchOption, searchInLinkedDocumentSearchOption);
             return mapper.Map<IEnumerable<CityServiceDTO>>(services);
         }
 

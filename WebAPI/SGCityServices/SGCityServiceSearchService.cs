@@ -14,7 +14,7 @@ namespace WebAPI.SGCityServices
             this.inMemoryCityServicesCollection = inMemoryCityServicesCollection;
         }
 
-        public IEnumerable<CityService> SearchCityServices(IEnumerable<string> keywords, KeywordSearchOption? keywordSearchOption, SearchInLinkedDocumentSearchOption? searchInLinkedDocumentsSearchOption, string description)
+        public IEnumerable<CityService> SearchCityServices(IEnumerable<string> keywords, KeywordSearchOption? keywordSearchOption, SearchInLinkedDocumentSearchOption? searchInLinkedDocumentsSearchOption)
         {
             if(keywords == null)
             {
