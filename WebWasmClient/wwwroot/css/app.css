@@ -23,7 +23,7 @@ nav {
 }
 
     nav > h1 {
-        font-size: 30px;
+        font-size: 24px;
         font-weight: 500;
         display: block;
         align-self: flex-end;
@@ -35,6 +35,18 @@ nav {
     width: 100%;
     display: grid;
     place-content: center;
+}
+.greetingSection > h1{
+    font-size: 38px;
+}
+.greetingSectionMain{
+    height: 70px;
+}
+.greetingSectionMain > .actionOverview{
+    margin-top: 10px;
+    height: 25%;
+    display: flex;
+    justify-content: space-around;
 }
 #app {
     display: grid;

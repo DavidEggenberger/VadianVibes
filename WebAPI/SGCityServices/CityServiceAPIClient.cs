@@ -27,6 +27,14 @@ namespace WebAPI.SGCityServicesClient
             return t.records.Select(r => r.fields);
         }
 
+        public async Task ExtendServicesWithKeywordCount(List<CityService> services)
+        {
+            foreach (var service in services)
+            {
+                
+            }
+        }
+
         public async Task ExtendServicesWithScrapedInformations(List<CityService> cityServices)
         {
             var defaultHttpClient = httpClientFactory.CreateClient("default");

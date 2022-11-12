@@ -39,9 +39,24 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("grouped")]
-        public IEnumerable<CityServiceDTO> GetCityServicesGroupedAsync()
+        public Dictionary<string, List<CityServiceDTO>> GetGroupedCityServicesGroupedAsync(
+            [FromQuery] IEnumerable<string> keywords,
+            [FromQuery] KeywordSearchOption? keywordSearchOption,
+            [FromQuery] SearchInLinkedDocumentSearchOption? searchInLinkedDocumentSearchOption,
+            [FromQuery] CityServiceGroupBy groupBy)
         {
-            return mapper.Map<IEnumerable<CityServiceDTO>>(inMemoryCityServicesCollection.CityServices);
+            var services = cityServiceSearchService.SearchCityServices(keywords, keywordSearchOption, searchInLinkedDocumentSearchOption);
+            var servicesDTOs = mapper.Map<IEnumerable<CityServiceDTO>>(services);
+
+            var grouped = groupBy switch
+            {
+                CityServiceGroupBy.art_der_dienstleistung => servicesDTOs.GroupBy(s => s.art_der_dienstleistung),
+                CityServiceGroupBy.dienststelle => servicesDTOs.GroupBy(s => s.dienststelle),
+                CityServiceGroupBy.thema => servicesDTOs.GroupBy(s => s.thema),
+                _ => servicesDTOs.GroupBy(s => s.art_der_dienstleistung)
+            };
+
+            return grouped.Where(g => g.Key != null && g.Count() > 0).ToDictionary(kvp => kvp.Key, kvp => kvp.ToList());
         }
     }
 }

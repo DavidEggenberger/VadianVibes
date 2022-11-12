@@ -32,5 +32,18 @@ namespace WebAPI.SGCityServices
             };
             return services;
         }
+
+        public IEnumerable<IGrouping<string, CityService>> SearchCityServicesGrouped(IEnumerable<string> keywords, KeywordSearchOption? keywordSearchOption, SearchInLinkedDocumentSearchOption? searchInLinkedDocumentsSearchOption, CityServiceGroupBy cityServiceGroupBy)
+        {
+            var services = SearchCityServices(keywords, keywordSearchOption, searchInLinkedDocumentsSearchOption);
+
+            return cityServiceGroupBy switch
+            {
+                CityServiceGroupBy.art_der_dienstleistung => services.GroupBy(s => s.art_der_dienstleistung),
+                CityServiceGroupBy.dienststelle => services.GroupBy(s => s.dienststelle),
+                CityServiceGroupBy.thema => services.GroupBy(s => s.thema),
+                _ => services.GroupBy(s => s.art_der_dienstleistung)
+            };
+        }
     }
 }

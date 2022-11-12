@@ -1,0 +1,35 @@
+﻿.swagger-ui .topbar .download-url-wrapper .select-label select {
+    border-color: #EF1C25;
+}
+
+.swagger-ui .info .title small:last-child {
+    background-color: #EF1C25 !important;
+}
+
+#header {
+    background: #222 !important;
+}
+
+#select_document {
+    background: #666 !important;
+}
+
+input[name=baseUrl] {
+    display: none !important;
+}
+
+.logo__title {
+    display: none !important;
+}
+
+#api_info a {
+    color: #007bff !important;
+    text-decoration: none !important;
+}
+
+    #api_info a:hover,
+    #api_info a:focus,
+    #api_info a:active {
+        color: #0056b3 !important;
+        text-decoration: underline !important;
+    }

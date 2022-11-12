@@ -79,6 +79,7 @@ namespace WebAPI
             app.UseSwagger();
             app.UseSwaggerUI(options => 
             {
+                options.InjectStylesheet("/swagerStyles.css");
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
 

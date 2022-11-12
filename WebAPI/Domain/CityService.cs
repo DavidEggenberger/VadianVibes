@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Domain
+﻿using System.Collections.Generic;
+
+namespace WebAPI.Domain
 {
     public class CityService
     {
@@ -14,6 +16,7 @@
         public string merkblatt_link { get; set; }
         public string weitere_informationen { get; set; }
         public string dienststelle { get; set; }
+        public Dictionary<string, int> KeywordCount { get; set; } = new Dictionary<string, int>();
         public ScrapedInformation ScrapedInformation { get; set; } = new ScrapedInformation();
         public override string ToString()
         {
