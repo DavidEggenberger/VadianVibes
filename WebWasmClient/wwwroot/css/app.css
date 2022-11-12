@@ -15,7 +15,7 @@ h1{
     height: 100vh;
     width: 100vw;
     display: grid;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 50px 1fr 2fr;
 }
 nav {
     display: flex;
@@ -30,6 +30,12 @@ nav {
         outline: none !important;
         border: none !important;
     }
+.greetingSection{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-content: center;
+}
 #app {
     display: grid;
     place-content: center;
