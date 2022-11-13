@@ -41,14 +41,13 @@
                         </select>
 
                         <form method="post" action="/api/excelexporter">
-                            <input hidden name="id" value="@idds">
+                            <input hidden name="id" value="@(string.IsNullOrWhiteSpace(filter) ? string.Join(", ", foundServices.Select(s => s.direktlink_url)) : string.Join(", ", foundServices.Where(s => s.art_der_dienstleistung == filter).Select(s => s.direktlink_url)))">
                             <button class="button" style="margin-top: 10px;" type="submit">Die Dienstleistungen als Excel Datei herunterladen</button>
                         </form>
                     }   
                 </div>
             }
         </aside>
-        <audio id="audio" src='@($"/{audioFile}")' hidden></audio>
         <div class="indexMain">
             @if (showFurtherFilter1)
             {
@@ -66,7 +65,7 @@
 
     public string Message { get; set; }
 
-    private string idds = string.Empty; 
+    private string idds => string.Join(", ", foundServices.Where(s => s.art_der_dienstleistung == filter).Select(s => s.direktlink_url)); 
 
     private string _filter;
     public string filter
@@ -76,7 +75,7 @@
         {
             _filter = value;
             Console.WriteLine(_filter);
-            idds = string.Join(", ", foundServices.Where(s => s.art_der_dienstleistung == filter).Select(s => s.direktlink_url));
+            //idds = string.Join(", ", foundServices.Where(s => s.art_der_dienstleistung == filter).Select(s => s.direktlink_url));
             StateHasChanged();
         }
     }
