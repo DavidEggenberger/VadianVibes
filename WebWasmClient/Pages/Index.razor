@@ -1,10 +1,106 @@
 ﻿@page "/"
+@inject HttpClient httpClient
 
+@if(string.IsNullOrWhiteSpace(microphoneAnalyzedKeywords) is false && MicrophoneAnalyzing is false)
+{
+    <div class="index">
+        <aside>
+            <div style="display: flex; justify-content: center;">
+                <h3 style="display: block;">Suchfenster</h3>
+            </div>
+            <div>
+                <h4>Deine Eingabe: @($"\"{microphoneAnalyzedKeywords}\"")</h4>
+                <h4>Bist du zufrieden mit der Übersetzung?</h4>
+                <div class="buttonContainer">
+                    <button class="button" @onclick="() => { showFurtherFilter1 = true; }">
+                        Ja
+                    </button>
+                    <button class="button" @onclick="() => { microphoneAnalyzedKeywords = string.Empty; }">
+                        Nein, Ich möchte neu beginnen
+                    </button>
+                </div>
+            </div>
+            @if (showFurtherFilter1)
+            {
+                <h4>Im Suchfenster siehts du alle @foundServices?.Count() Resultate</h4>
+                @if(Message != null)
+                {
+                    <h4>@Message</h4>
+                }
+                <div>
+                    @if(foundServices?.Count() > 0)
+                    {
+                        <h4>Du kannst die Resultate weiter nach Art der Dienstleistung filtern:</h4>
+                        <select @bind="@filter">
+                            <option value="Filter zurücksetzen">Filter zurücksetzen</option>
+                            @foreach(var option in foundServices.GroupBy(s => s.art_der_dienstleistung))
+                            {
+                                <option value="@option.Key">@option.Key</option>
+                            }
+                        </select>
 
-<div class="servicesOverview">
-
-</div>
+                        <form method="post" action="/api/excelexporter">
+                            <input hidden name="id" value="@idds">
+                            <button class="button" style="margin-top: 10px;" type="submit">Die Dienstleistungen als Excel Datei herunterladen</button>
+                        </form>
+                    }   
+                </div>
+            }
+        </aside>
+        <div class="indexMain">
+            @if (showFurtherFilter1)
+            {
+                <SearchResultsComponent filter="@filter" FoundCallback="i => foundServices = i" NthFoundCallback='() => Message = "Wir haben keine Dienstleistung gefunden. Bitte versuche es noch einmal" ' keyword="@microphoneAnalyzedKeywords"/>
+            }
+        </div>
+    </div>          
+}  
 
 @code{
+    [CascadingParameter]
+    public string microphoneAnalyzedKeywords { get; set; }
 
+    public string Message { get; set; }
+
+    private string idds = string.Empty; 
+
+    private string _filter;
+    public string filter
+    {
+        get => _filter;
+        set
+        {
+            _filter = value;
+            Console.WriteLine(_filter);
+            idds = string.Join(", ", foundServices.Where(s => s.art_der_dienstleistung == filter).Select(s => s.direktlink_url));
+            StateHasChanged();
+        }
+    }
+
+    private IEnumerable<CityServiceDTO> foundServices = new List<CityServiceDTO>();
+
+    private bool microphoneAnalyzing = false;
+    [CascadingParameter]
+    public bool MicrophoneAnalyzing
+    {
+        get => microphoneAnalyzing;
+        set
+        {
+            microphoneAnalyzing = value;
+            if(value == true)
+            {
+                showFurtherFilter1 = false;
+                showSearchResults = false;
+                StateHasChanged();
+            }
+        }
+    }
+
+
+
+    [Parameter]
+    public EventCallback<bool> ShowSearchResults { get; set; }
+
+    private bool showSearchResults;
+    private bool showFurtherFilter1;
 }

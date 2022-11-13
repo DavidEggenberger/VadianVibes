@@ -23,7 +23,7 @@
             <div class="actionOverview">
                 <div style="display: flex; align-items: center; justify-content: center;">
                     <div class="section">
-                        <AnalyzeMicrophoneComponent MicrophoneAnalyzedEventCallback="t => microphoneAnalyzedKeywords = t.result"/>
+                        <AnalyzeMicrophoneComponent StartedAnalyzing="() => microphoneAnalyzing = true" MicrophoneAnalyzedEventCallback="t => { microphoneAnalyzedKeywords = t.result; microphoneAnalyzing = false; }"/>
                     </div>
                 </div>  
             </div>
@@ -31,11 +31,16 @@
     </div>
 
     <main>
-        @Body
+        <CascadingValue Value="microphoneAnalyzedKeywords">
+            <CascadingValue Value="microphoneAnalyzing">
+                @Body
+            </CascadingValue>
+        </CascadingValue>
     </main>
 </div>
 
 
 @code{
     private string microphoneAnalyzedKeywords;
+    private bool microphoneAnalyzing = false;
 }

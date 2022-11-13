@@ -25,7 +25,7 @@ namespace WebAPI.SGCityServices
                 (KeywordSearchOption.MustMatchAllKeywords, SearchInLinkedDocumentSearchOption.SearchOnlyInLinkedDocuments) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.All(k => service.ScrapedInformation.ToString()?.Contains(k) == true)),
                 (KeywordSearchOption.MustMatchOnlyOneKeyword, SearchInLinkedDocumentSearchOption.SearchOnlyInLinkedDocuments) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.Any(k => service.ScrapedInformation.ToString()?.Contains(k) == true)),
                 (KeywordSearchOption.MustMatchAllKeywords, SearchInLinkedDocumentSearchOption.Never) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.All(k => service.ToString()?.Contains(k) == true)),
-                (KeywordSearchOption.MustMatchOnlyOneKeyword, SearchInLinkedDocumentSearchOption.Never) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.Any(k => service.ToString()?.Contains(k) == true)),
+                (KeywordSearchOption.MustMatchOnlyOneKeyword, SearchInLinkedDocumentSearchOption.Never) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.Where(k => k.Length > 3).Any(k => service.ToString()?.Contains(k) == true)),
                 (KeywordSearchOption.MustMatchAllKeywords, SearchInLinkedDocumentSearchOption.Always) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.All(k => service.ToString().Contains(k)) || keywords.All(k => service.ScrapedInformation.ToString()?.Contains(k) == true)),
                 (KeywordSearchOption.MustMatchOnlyOneKeyword, SearchInLinkedDocumentSearchOption.Always) => inMemoryCityServicesCollection.CityServices.Where(service => keywords.Any(k => service.ToString().Contains(k)) || keywords.Any(k => service.ScrapedInformation.ToString()?.Contains(k) == true)),
                 _ => inMemoryCityServicesCollection.CityServices
@@ -45,5 +45,17 @@ namespace WebAPI.SGCityServices
                 _ => services.GroupBy(s => s.art_der_dienstleistung)
             };
         }
+
+        public IEnumerable<CityService> SearchCityServicesByKeyword(string keyword)
+        {
+            keyword = keyword.Replace('?', ' ');
+            keyword = keyword.Replace('!', ' ');
+
+            var words = keyword.Split(' ', '.');
+
+            return SearchCityServices(words, KeywordSearchOption.MustMatchOnlyOneKeyword, SearchInLinkedDocumentSearchOption.Never);
+        }
+
+        public IEnumerable<CityService> GetAll() => inMemoryCityServicesCollection.CityServices;
     }
 }

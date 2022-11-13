@@ -17,7 +17,7 @@ using WebAPI.SGCityServicesClient;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CityServicesController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -39,6 +39,15 @@ namespace WebAPI.Controllers
             [FromQuery] SearchInLinkedDocumentSearchOption? searchInLinkedDocumentSearchOption)
         {
             var services = cityServiceSearchService.SearchCityServices(keywords, keywordSearchOption, searchInLinkedDocumentSearchOption);
+            return mapper.Map<IEnumerable<CityServiceDTO>>(services);
+        }
+
+        [HttpGet("ByKeyword")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public IEnumerable<CityServiceDTO> GetSearchedCityServicesByKeyword(
+            [FromQuery] string keyword)
+        {
+            var services = cityServiceSearchService.SearchCityServicesByKeyword(keyword);
             return mapper.Map<IEnumerable<CityServiceDTO>>(services);
         }
 
@@ -73,7 +82,8 @@ namespace WebAPI.Controllers
 
             var foundKeywords = await azureSpeechToTextService.AnalyzeFormFile(wavFile);
 
-            return null;
+            var services = cityServiceSearchService.SearchCityServicesByKeyword(foundKeywords);
+            return Ok(mapper.Map<IEnumerable<CityServiceDTO>>(services));
         }
     }
 }

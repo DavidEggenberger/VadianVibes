@@ -1,0 +1,81 @@
+﻿@using System.Text.Encodings.Web
+@inject HttpClient httpClient
+
+@if(services?.Count() > 0)
+{
+    <div class="servicesContainer">
+        @foreach(var service in services)
+        {
+            <a href="@(string.IsNullOrWhiteSpace(service.direktlink_url) ? service.merkblatt_link : service.direktlink_url)" target="_blank" title="Click to go to document">
+                <div class="service">
+                    @if(string.IsNullOrWhiteSpace(service.leistungsbezeichnung) is false)
+                    {
+                        <h3>@service.leistungsbezeichnung</h3>
+                    }
+                    else
+                    {
+                        <h3>@service.art_der_dienstleistung</h3>
+                    }
+                    <h4>@service.kurzbeschreibung</h4>
+
+                    <h4 style="margin-top: 10px; padding-bottom: 2px;">Link</h4>
+
+                </div>
+            </a>     
+        }
+    </div>   
+}
+
+@code{
+    [Parameter]
+    public string keyword { get; set; }
+
+    private IEnumerable<CityServiceDTO>? services;
+
+    private string _filter;
+    [Parameter]
+    public string filter
+    {
+        get => _filter;
+        set
+        {
+            if(value == "Filter zurücksetzen")
+            {
+                services = container;
+            }
+            else
+            {
+                if(string.IsNullOrWhiteSpace(value) is false)
+                {
+                    services = services.Where(s => s.art_der_dienstleistung == filter);
+                    _filter = value;
+                }
+                StateHasChanged();
+            }
+        }
+    }
+
+    [Parameter]
+    public EventCallback NthFoundCallback { get; set; }
+    private IEnumerable<CityServiceDTO>? container;
+    [Parameter]
+    public EventCallback<IEnumerable<CityServiceDTO>> FoundCallback { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(string.IsNullOrWhiteSpace(keyword) is false)
+        {
+            var encoded = Uri.EscapeDataString(keyword);
+            services = await httpClient.GetFromJsonAsync<IEnumerable<CityServiceDTO>>($"/api/cityservices/bykeyword?keyword={encoded}");
+            container = services;
+            if(services?.Count() == 0)
+            {
+                await NthFoundCallback.InvokeAsync();
+            }
+            else
+            {
+                await FoundCallback.InvokeAsync(services);
+            }
+        }    
+    }
+}

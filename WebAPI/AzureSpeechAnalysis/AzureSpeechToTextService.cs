@@ -22,7 +22,8 @@ namespace WebAPI.AzureSpeechAnalysis
         public async Task<string> AnalyzeFormFile(IFormFile file)
         {
             var speechConfig = SpeechConfig.FromSubscription(options.APIKey, "switzerlandnorth");
-            
+            speechConfig.SpeechRecognitionLanguage = "de-CH";
+
             var id = Guid.NewGuid();
             var generatedFileName = $@"{webHostEnvironment.WebRootPath}/{id}.wav";
 
