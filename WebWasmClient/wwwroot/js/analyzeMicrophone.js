@@ -31,3 +31,6 @@
 function startAudio() {
     document.getElementById('audio')?.play();
 }
+function startAudio() {
+    document.getElementById('audio')?.play();
+}

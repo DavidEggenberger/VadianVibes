@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<CityServiceDTO>>> PostWavFile(IFormFile wavFile)
+        public async Task<ActionResult<IEnumerable<CityServiceDTO>>> PostWavFile(IFormFile wavFile, [FromServices] TextToSpeechService textToSpeechService)
         {
             if(wavFile == null || wavFile.ContentType != "audio/wav")
             {
@@ -81,6 +81,11 @@ namespace WebAPI.Controllers
             }
 
             var foundKeywords = await azureSpeechToTextService.AnalyzeFormFile(wavFile);
+
+            if (foundKeywords.Contains("***"))
+            {
+                return BadRequest(textToSpeechService.SynthesizeAudioAsync("Bitte in einem anständigen Ton"));
+            }
 
             var services = cityServiceSearchService.SearchCityServicesByKeyword(foundKeywords);
             return Ok(mapper.Map<IEnumerable<CityServiceDTO>>(services));

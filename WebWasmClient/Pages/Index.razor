@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IJSRuntime jsRuntime
 @inject HttpClient httpClient
 
 @if(string.IsNullOrWhiteSpace(microphoneAnalyzedKeywords) is false && MicrophoneAnalyzing is false)
@@ -47,6 +48,7 @@
                 </div>
             }
         </aside>
+        <audio id="audio" src='@($"/{audioFile}")' hidden></audio>
         <div class="indexMain">
             @if (showFurtherFilter1)
             {
@@ -57,6 +59,8 @@
 }  
 
 @code{
+    private string audioFile;
+
     [CascadingParameter]
     public string microphoneAnalyzedKeywords { get; set; }
 

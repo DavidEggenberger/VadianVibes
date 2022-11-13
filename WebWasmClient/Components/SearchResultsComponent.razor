@@ -6,22 +6,21 @@
     <div class="servicesContainer">
         @foreach(var service in services)
         {
-            <a href="@(string.IsNullOrWhiteSpace(service.direktlink_url) ? service.merkblatt_link : service.direktlink_url)" target="_blank" title="Click to go to document">
-                <div class="service">
-                    @if(string.IsNullOrWhiteSpace(service.leistungsbezeichnung) is false)
-                    {
-                        <h3>@service.leistungsbezeichnung</h3>
-                    }
-                    else
-                    {
-                        <h3>@service.art_der_dienstleistung</h3>
-                    }
-                    <h4>@service.kurzbeschreibung</h4>
+            <div class="service">
+                @if(string.IsNullOrWhiteSpace(service.leistungsbezeichnung) is false)
+                {
+                    <h3>@service.leistungsbezeichnung</h3>
+                }
+                else
+                {
+                    <h3>@service.art_der_dienstleistung</h3>
+                }
+                <h4>@service.thema</h4>
 
+                <a href="@(string.IsNullOrWhiteSpace(service.direktlink_url) ? service.merkblatt_link : service.direktlink_url)" target="_blank" title="Click to go to document">
                     <h4 style="margin-top: 10px; padding-bottom: 2px;">Link</h4>
-
-                </div>
-            </a>     
+                </a>
+            </div>
         }
     </div>   
 }
@@ -31,7 +30,6 @@
     public string keyword { get; set; }
 
     private IEnumerable<CityServiceDTO>? services;
-
     private string _filter;
     [Parameter]
     public string filter

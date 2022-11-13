@@ -28,5 +28,13 @@ namespace WebAPI.Controllers
                 Token = token,
             };
         }
+
+        [HttpGet("translate")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<TranslatedResult> GetAudioFile(string translatedText, [FromServices] TextToSpeechService textToSpeechService)
+        {
+            var text = await textToSpeechService.SynthesizeAudioAsync(translatedText);
+            return new TranslatedResult { Address = text };
+        }
     }
 }
