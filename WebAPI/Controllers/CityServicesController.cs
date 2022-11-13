@@ -73,6 +73,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
+        /// <summary>
+        /// Findet passende Dienstleistungen für die Textauswertung der Heraufgeladenen .Wav Datei
+        /// </summary>
         public async Task<ActionResult<IEnumerable<CityServiceDTO>>> PostWavFile(IFormFile wavFile, [FromServices] TextToSpeechService textToSpeechService)
         {
             if(wavFile == null || wavFile.ContentType != "audio/wav")
